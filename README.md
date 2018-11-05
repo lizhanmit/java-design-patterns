@@ -58,15 +58,25 @@ Composition over inheritance.
 
 Collections framework in Java has examples of the bridge interface: ArrayList and LinkedList are implement List. And List provides common methods to add, remove or check size. 
 
-![not-applying-bridge-pattern]()
+Not applying bridge pattern:
 
-![bridge-pattern]()
+![not-applying-bridge-pattern](img/not-applying-bridge-pattern.png)
 
-![applying-bridge-pattern]()
+Bridge pattern:  
 
-![applying-bridge-pattern-2]()
+![bridge-pattern](img/bridge-pattern.png)
+
+Applying bridge pattern: 
+
+![applying-bridge-pattern](img/applying-bridge-pattern.png)
+
+![applying-bridge-pattern-2](img/applying-bridge-pattern-2.png)
 
 ![applying-bridge-pattern-3.png](img/applying-bridge-pattern-3.png)
+
+JDBC is a typical example of applying bridge pattern. 
+
+![jdbc-bridge-pattern.png](img/jdbc-bridge-pattern.png)
 
 ### Filter Pattern
 
