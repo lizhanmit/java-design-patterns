@@ -1,5 +1,8 @@
 package com.zhandev.singleton;
 
+/*
+ * non-lazy implementation 
+ */
 public class SingleObject {
 
 	private static SingleObject instance = new SingleObject();

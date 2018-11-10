@@ -10,5 +10,17 @@ public class SingletonPatternDemo {
 		
 		SingleObject singleObject = SingleObject.getInstance();
 		singleObject.showMessage();
+		
+		SingleObject singletonObj1 = SingleObject.getInstance(); 
+		SingleObject singletonObj2 = SingleObject.getInstance();
+		System.out.println(singletonObj1 == singletonObj2);  // true
+		
+		
+		/*
+		 * lazy
+		 */
+		LazySingleObject LazySingleObject1 = LazySingleObject.getInstance();
+		LazySingleObject LazySingleObject2 = LazySingleObject.getInstance();
+		System.out.println(LazySingleObject1 == LazySingleObject2);  // true
 	}
 }
