@@ -206,3 +206,13 @@ When creating instances for this Context class using constructor, pass different
   - Method names in Controller should be more meaningful and readable compared with those in Model class. 
 
 ![mvc-pattern.jpg](img/mvc-pattern.jpg)
+
+### DAO Pattern 
+
+Data Access Object (DAO) Pattern is used to separate low level data accessing API or operations from high level business services.
+
+- Model 
+- Dao (interface)
+- DaoImpl - having the list of students as an attribute. 
+
+![dao-pattern.jpg](img/dao-pattern.jpg)
