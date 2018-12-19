@@ -1,5 +1,18 @@
 # Java Design Patterns
 
+Design Principles: 
+
+- Encapsulate the part in the application that may need changes. **DO NOT** mix them with those code that does not need change. 
+	- If the new requirement comes and some part of code needs to change accordingly, then this part of code needs to be extracted distinguishing with other stable code. 
+	
+- Code against interface rather than implementation. 
+- Use composition more. Use inheritance less. (HAS-A is better than IS-A.) 
+	- When two classes are combined to use, that is composition, e.g. animal and its behavior. 
+	- Using composition makes system more flexible, which make it possible to change behaviors dynamically in runtime. 
+- Using interfaces makes code non reusable as there is no real code in interfaces and every implemented class needs to implement its methods. 
+
+---
+
 ## Creational Patterns
 
 ### Factory Pattern 
@@ -18,9 +31,46 @@ Use a super-factory (factory producer) to create other factories through specify
 
 ### Singleton Pattern
 
-Use a single class which is responsible to create an object which can be accessed directly without instantiating the object of the class.
+Use a singleton class which is responsible to create an object which can be accessed directly without instantiating the class.
+
+One class only has one object in memory. You cannot create multiple objects for this class. 
+
+For some classes, we only need one object, such as 
+
+- property file 
+- utility file
+- thread pool
+- cache
+- log object 
+- task manager and recycle bin of Windows 
+- database connection pool 
+- bean in Spring by default 
+- Application in servlet 
+
+How to keep only one object in the memory for a specific class: 
+
+- Ideas: 
+    1. Forbid other programs to use this class to create objects. 
+    2. In this class, create an object itself in order to let other programs access its object. 
+    3. Provide methods for external access to this object.  
+
+- Implementation by code: 
+    1. Make constructor of this class private. 
+    2. Create an object of this class in this class. 
+    3. Create a method to access this object externally. 
 
 ![singleton-pattern.jpg](img/singleton-pattern.jpg)
+
+Two kinds of implementations: 
+
+- Lazy 
+	- Lazy load. Utilization rate becomes higher.
+	- Need to sync when calling `getInstance()` every time. Concurrency rate is low. 
+	- Use this one if you do not need to create the object frequently.
+	
+- Non-lazy 
+	- Once the class is loaded, the object will be created. If you do not use it, resources will be wasted. 
+	- Use this one if you need to create the object very often. 
 
 ### Builder Pattern
 
@@ -151,9 +201,18 @@ When creating instances for this Context class using constructor, pass different
 ### MVC Pattern 
 
 - Model 
-
 - View 
 - Controller - having object of Model class and View class as attributes. 
   - Method names in Controller should be more meaningful and readable compared with those in Model class. 
 
 ![mvc-pattern.jpg](img/mvc-pattern.jpg)
+
+### DAO Pattern 
+
+Data Access Object (DAO) Pattern is used to separate low level data accessing API or operations from high level business services.
+
+- Model 
+- Dao (interface)
+- DaoImpl - having the list of students as an attribute. 
+
+![dao-pattern.jpg](img/dao-pattern.jpg)
