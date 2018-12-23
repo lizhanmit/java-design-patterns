@@ -15,34 +15,307 @@ Design Principles:
 
 ## SOLID Principles of OOP
 
-Single Responsibility Principle
+### Single Responsibility Principle
 
 - Every class should have a single responsibility.
 - Your classes should be small.
-- Avoid "god" classes.
+- Avoid "God" classes.
 - Split big classes into small classes.
 
-Open/Close Principle
+### Open/Close Principle
 
+- Avoid change in the existing code when requirements change. Instead extend the existing functionality by adding new code to meet the new requirements.
 - Your classes should be open for extension but closed for modification.
 - You should be able to extend a class's behavior, without modifying it.
-- Make base classes as abstract.
+- How to? Create interfaces and abstract classes for base classes.
 
-Liskov Substitution Principle
+Example scenario: Insurance company. Claim business.
 
-- Objects in a program would be replaceable with instances of their subtypes without altering the correctness of the program.
+**Bad Approach**
 
-Interface Segregation Principle
+HealthInsuranceSurveyor.java
 
-- Many fine-grained client specific interfaces are better than one "general purpose" interface.
+```java
+public class HealthInsuranceSurveyor{
+    public boolean isValidClaim(){
+        System.out.println("HealthInsuranceSurveyor: Validating health insurance claim...");
+        /*Logic to validate health insurance claims*/
+        return true;
+    }
+}
+```
+
+ClaimApprovalManager.java
+
+```java
+public class ClaimApprovalManager {
+    public void processHealthClaim (HealthInsuranceSurveyor surveyor)
+    {
+        if(surveyor.isValidClaim()){
+            System.out.println("ClaimApprovalManager: Valid claim. Currently processing claim for approval....");
+        }
+    }
+}
+```
+A new requirement to process vehicle insurance claims arises.
+
+Modified ClaimApprovalManager.java
+
+```java
+public class ClaimApprovalManager {
+    public void processHealthClaim (HealthInsuranceSurveyor surveyor)
+    {
+        if(surveyor.isValidClaim()){
+            System.out.println("ClaimApprovalManager: Valid claim. Currently processing claim for approval....");
+        }
+    }
+    public void processVehicleClaim (VehicleInsuranceSurveyor surveyor)
+    {
+        if(surveyor.isValidClaim()){
+            System.out.println("ClaimApprovalManager: Valid claim. Currently processing claim for approval....");
+        }
+    }
+}
+```
+
+It is bad to modify ClaimApprovalManager class.
+
+**Good Approach**
+
+InsuranceSurveyor.java
+
+```java
+public abstract class InsuranceSurveyor {
+    public abstract boolean isValidClaim();
+}
+```
+
+HealthInsuranceSurveyor.java
+
+```java
+public class HealthInsuranceSurveyor extends InsuranceSurveyor{
+    public boolean isValidClaim(){
+        System.out.println("HealthInsuranceSurveyor: Validating health insurance claim...");
+        /*Logic to validate health insurance claims*/
+        return true;
+    }
+}
+```
+
+VehicleInsuranceSurveyor.java
+
+```java
+public class VehicleInsuranceSurveyor extends InsuranceSurveyor{
+    public boolean isValidClaim(){
+       System.out.println("VehicleInsuranceSurveyor: Validating vehicle insurance claim...");
+        /*Logic to validate vehicle insurance claims*/
+        return true;
+    }
+}
+```
+
+ClaimApprovalManager.java
+
+**NOTE here:** Pass the InsuranceSurveyor type object as input parameter.
+
+```java
+public class ClaimApprovalManager {
+    public void processClaim(InsuranceSurveyor surveyor){
+        if(surveyor.isValidClaim()){
+            System.out.println("ClaimApprovalManager: Valid claim. Currently processing claim for approval....");
+        }
+    }
+}
+```
+
+ClaimApprovalManagerTest.java
+
+```java
+public class ClaimApprovalManagerTest {
+    @Test
+    public void testProcessClaim() throws Exception {
+        HealthInsuranceSurveyor healthInsuranceSurveyor=new HealthInsuranceSurveyor();
+        ClaimApprovalManager claim1=new ClaimApprovalManager();
+        claim1.processClaim(healthInsuranceSurveyor);
+        VehicleInsuranceSurveyor vehicleInsuranceSurveyor=new VehicleInsuranceSurveyor();
+        ClaimApprovalManager claim2=new ClaimApprovalManager();
+        claim2.processClaim(vehicleInsuranceSurveyor);
+    }
+}
+```
+
+### Liskov Substitution Principle
+
+- Any object in a program can be replaced by an object of a child class (instance of a subtype) without altering the correctness of the program.
+
+### Interface Segregation Principle
+
+- Clients (implementing classes) should not be forced to depend on (implement) methods that they do not use.
+- Many fine-grained client specific interfaces (role interfaces) are better than one "general purpose" (fat) interface.
+- Each "role interface" declares one or more methods for a specific behavior.
 - Keep your components focused and minimize dependencies between them.
-- Avoid "god" interfaces.
+- Avoid "God" interfaces.
 
-Dependency Inversion Principle
+### Dependency Inversion Principle
 
 - Abstractions should not depend upon details.
-- Details should not depend upon abstractions.
+- Details should depend upon abstractions.
 - Make a distinction between the higher level and lower level objects. They should depend on the same abstract interaction.  
+
+![with-vs-without-dependency-inversion.png](img/with-vs-without-dependency-inversion.png)
+
+Example scenario: An electric switch that turns a light bulb on or off.
+
+**Bad Approach**
+
+LightBulb.java
+
+```java
+public class LightBulb {
+    public void turnOn() {
+        System.out.println("LightBulb: Bulb turned on...");
+    }
+    public void turnOff() {
+        System.out.println("LightBulb: Bulb turned off...");
+    }
+}
+```
+
+ElectricPowerSwitch.java
+
+```java
+public class ElectricPowerSwitch {
+    public LightBulb lightBulb;
+    public boolean on;
+    public ElectricPowerSwitch(LightBulb lightBulb) {
+        this.lightBulb = lightBulb;
+        this.on = false;
+    }
+    public boolean isOn() {
+        return this.on;
+    }
+    public void press(){
+        boolean checkOn = isOn();
+        if (checkOn) {
+            lightBulb.turnOff();
+            this.on = false;
+        } else {
+            lightBulb.turnOn();
+            this.on = true;
+        }
+    }
+}
+```
+
+It is bad that the LightBulb class is hardcoded in ElectricPowerSwitch. A switch should not be tied to a bulb. It should be able to turn on and off other appliances and devices too.
+
+**Good Approach**
+
+Switch.java
+
+```java
+package guru.springframework.blog.dependencyinversionprinciple.highlevel;
+public interface Switch {
+    boolean isOn();
+    void press();
+}
+```
+
+Switchable.java
+
+```java
+package guru.springframework.blog.dependencyinversionprinciple.highlevel;
+public interface Switchable {
+    void turnOn();
+    void turnOff();
+}
+```
+
+ElectricPowerSwitch.java
+
+```java
+package guru.springframework.blog.dependencyinversionprinciple.highlevel;
+public class ElectricPowerSwitch implements Switch {
+    public Switchable client;
+    public boolean on;
+    public ElectricPowerSwitch(Switchable client) {
+        this.client = client;
+        this.on = false;
+    }
+    public boolean isOn() {
+        return this.on;
+    }
+   public void press(){
+       boolean checkOn = isOn();
+       if (checkOn) {
+           client.turnOff();
+           this.on = false;
+       } else {
+             client.turnOn();
+             this.on = true;
+       }
+   }
+}
+```
+
+LightBulb.java
+
+```java
+package guru.springframework.blog.dependencyinversionprinciple.lowlevel;
+import guru.springframework.blog.dependencyinversionprinciple.highlevel.Switchable;
+public class LightBulb implements Switchable {
+    @Override
+    public void turnOn() {
+        System.out.println("LightBulb: Bulb turned on...");
+    }
+    @Override
+    public void turnOff() {
+        System.out.println("LightBulb: Bulb turned off...");
+    }
+}
+```
+
+Fan.java
+
+```java
+package guru.springframework.blog.dependencyinversionprinciple.lowlevel;
+import guru.springframework.blog.dependencyinversionprinciple.highlevel.Switchable;
+public class Fan implements Switchable {
+    @Override
+    public void turnOn() {
+        System.out.println("Fan: Fan turned on...");
+    }
+    @Override
+    public void turnOff() {
+        System.out.println("Fan: Fan turned off...");
+    }
+}
+```
+
+ElectricPowerSwitchTest.java
+
+```java
+package guru.springframework.blog.dependencyinversionprinciple.highlevel;
+import guru.springframework.blog.dependencyinversionprinciple.lowlevel.Fan;
+import guru.springframework.blog.dependencyinversionprinciple.lowlevel.LightBulb;
+import org.junit.Test;
+public class ElectricPowerSwitchTest {
+    @Test
+    public void testPress() throws Exception {
+    	  Switchable switchableBulb = new LightBulb();
+        Switch bulbPowerSwitch = new ElectricPowerSwitch(switchableBulb);
+        bulbPowerSwitch.press();
+        bulbPowerSwitch.press();
+
+    	  Switchable switchableFan = new Fan();
+    	  Switch fanPowerSwitch = new ElectricPowerSwitch(switchableFan);
+    	  fanPowerSwitch.press();
+    	  fanPowerSwitch.press();
+    }
+}
+```
+
+**NOTE** how class files are organized in different packages. We kept the Switchable interface in a different package from the low-level electric device classes. This will also help us if we later decide to release the high-level package as a public API that other applications can use for their devices.
 
 ---
 
