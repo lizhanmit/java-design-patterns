@@ -367,16 +367,25 @@ How to keep only one object in the memory for a specific class:
 
 ![singleton-pattern.jpg](img/singleton-pattern.jpg)
 
-Two kinds of implementations:
+[单例模式详解](https://www.jianshu.com/p/650593e69f59)
+
+Five kinds of implementations:
 
 - Lazy
 	- Lazy load. Utilization rate becomes higher.
-	- Need to sync when calling `getInstance()` every time. Concurrency rate is low.
+	- Need to sync when calling `getInstance()` every time to avoid being thread unsafe. Concurrency rate is low.
 	- Use this one if you do not need to create the object frequently.
-
-- Non-lazy
+- :white_check_mark: ​Non-lazy
 	- Once the class is loaded, the object will be created. If you do not use it, resources will be wasted.
 	- Use this one if you need to create the object very often.
+	- Disadvantages:
+		- If the private constructor is very big with many processes, it will be slow to create an object. Performance problem.
+		- It is not applicable in some scenarios. For example, when the singleton instance is created through passing parameters or property files. You must use some method to specify parameters before invoking `getInstance()`.
+- Double checked locking
+- :white_check_mark: Static nested / inner class
+	- Lazy initialization
+- :white_check_mark: ​Enum
+	- Can avoid de-serialization re-creating new instances.
 
 ### Builder Pattern
 
