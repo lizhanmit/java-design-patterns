@@ -1,10 +1,11 @@
 # Java Design Patterns
 
+[Java 设计模式](https://javadoop.com/post/design-pattern)
+
 Design Principles:
 
 - Encapsulate the part in the application that may need changes. **DO NOT** mix them with those code that does not need change.
 	- If the new requirement comes and some part of code needs to change accordingly, then this part of code needs to be extracted distinguishing with other stable code.
-
 - Code against interface rather than implementation.
 - Use composition more. Use inheritance less. (HAS-A is better than IS-A.)
 	- When two classes are combined to use, that is composition, e.g. animal and its behavior.
@@ -485,6 +486,12 @@ The method to be restricted in the real class is **private** rather than public.
 
 ![proxy-pattern.jpg](img/proxy-pattern.jpg)
 
+[Proxy pattern VS Decorator pattern](https://www.jianshu.com/p/b0cbdd73b4ce)
+
+- Common place: extension of the real class.
+	- proxy pattern: focuses on hide.
+	- decorator pattern: focuses on dynamic.
+
 ## Behavioral Patterns
 
 ### Command Pattern
@@ -505,7 +512,7 @@ The Subject class is able to attach new Observer classes into the list and detac
 
 ### Strategy Pattern
 
-Create a Context class making the object of Strategy class as its attribute and input parameter of constructor.
+Create a Context class making the object of Strategy interface as its attribute and input parameter of constructor.
 
 When creating instances for this Context class using constructor, pass different types of instances of Strategy class as input parameter to realize different strategies.
 
