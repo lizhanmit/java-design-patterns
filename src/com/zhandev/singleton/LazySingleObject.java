@@ -11,7 +11,7 @@ public class LazySingleObject {
 	private LazySingleObject() {
 		
 	}
-	
+
 	public static LazySingleObject getInstance() {
 		// NOTE "synchronized" here, you must add it
 		// otherwise, it is not thread safe
