@@ -2,7 +2,8 @@ package com.zhandev.singleton;
 
 /*
  * non-lazy implementation 
- * not good
+ * thread safe
+ * not good because instance will be created even if you do not need
  */
 public class SingleObject {
 
