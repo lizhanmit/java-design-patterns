@@ -1,7 +1,8 @@
 package com.zhandev.singleton;
 
 /*
- * lazy implementation 
+ * synchronized lazy implementation 
+ * not good
  */
 public class LazySingleObject {
 
@@ -11,10 +12,14 @@ public class LazySingleObject {
 		
 	}
 	
-	public static synchronized LazySingleObject getInstance() {
-		if (lazyInstance == null) {
-			lazyInstance = new LazySingleObject();
+	public static LazySingleObject getInstance() {
+		// synchronized is used to ensure this is thread-safe
+		synchronized (LazySingleObject.class) {
+			if (lazyInstance == null) {
+				lazyInstance = new LazySingleObject();
+			}
 		}
+		
 		return lazyInstance;
 	}
 }

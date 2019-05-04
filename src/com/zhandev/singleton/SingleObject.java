@@ -2,6 +2,7 @@ package com.zhandev.singleton;
 
 /*
  * non-lazy implementation 
+ * not good
  */
 public class SingleObject {
 
