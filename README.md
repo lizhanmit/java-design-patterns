@@ -1,8 +1,67 @@
 # Java Design Patterns
 
+- [Java Design Patterns](#java-design-patterns)
+  - [Code Maintainability and Anti-Patterns](#code-maintainability-and-anti-patterns)
+    - [Code Maintainability](#code-maintainability)
+    - [Anti-Patterns](#anti-patterns)
+    - [KISS Principle](#kiss-principle)
+  - [Design Principles](#design-principles)
+  - [SOLID Principles of OOP](#solid-principles-of-oop)
+    - [Single Responsibility Principle](#single-responsibility-principle)
+    - [Open/Close Principle](#openclose-principle)
+    - [Liskov Substitution Principle](#liskov-substitution-principle)
+    - [Interface Segregation Principle](#interface-segregation-principle)
+    - [Dependency Inversion Principle](#dependency-inversion-principle)
+  - [Creational Patterns](#creational-patterns)
+    - [Factory Pattern](#factory-pattern)
+    - [Abstract Factory Pattern](#abstract-factory-pattern)
+    - [Singleton Pattern](#singleton-pattern)
+    - [Builder Pattern](#builder-pattern)
+    - [Prototype Pattern](#prototype-pattern)
+  - [Structural Patterns](#structural-patterns)
+    - [Adapter Pattern](#adapter-pattern)
+    - [Bridge Pattern](#bridge-pattern)
+    - [Filter Pattern](#filter-pattern)
+    - [Composite Pattern](#composite-pattern)
+    - [Decorator Pattern](#decorator-pattern)
+    - [Facade Pattern](#facade-pattern)
+    - [Proxy Pattern](#proxy-pattern)
+  - [Behavioral Patterns](#behavioral-patterns)
+    - [Command Pattern](#command-pattern)
+    - [Observer Pattern](#observer-pattern)
+    - [Strategy Pattern](#strategy-pattern)
+  - [J2EE Patterns](#j2ee-patterns)
+    - [MVC Pattern](#mvc-pattern)
+    - [DAO Pattern](#dao-pattern)
+
+---
+
 [Java 设计模式](https://javadoop.com/post/design-pattern)
 
-Design Principles:
+## Code Maintainability and Anti-Patterns
+
+### Code Maintainability
+
+- It should be simple to locate code responsible for a particular feature.
+- It should be simple to understand what the code does.
+- It should be simple to add or remove a new feature.
+- It should provide good encapsulation. In other words, implementation details should be hidden from a user of your code so it is easier to understand and make changes.
+
+### Anti-Patterns
+
+- God Class
+- Code duplication
+  - "Don't Repeat Yourself" (DRY) principle
+
+### KISS Principle
+
+KISS: Keep It Short and Simple. Have the application code in one single class. 
+
+It is good to keep things simple when possible, but do not abuse the principle. 
+
+---
+
+## Design Principles
 
 - Encapsulate the part in the application that may need changes. **DO NOT** mix them with those code that does not need change.
 	- If the new requirement comes and some part of code needs to change accordingly, then this part of code needs to be extracted distinguishing with other stable code.
