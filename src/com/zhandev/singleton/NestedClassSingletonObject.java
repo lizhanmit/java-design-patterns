@@ -9,14 +9,12 @@ public class NestedClassSingletonObject {
 		
 	}
 	
-	private static class Nested {
-		private static NestedClassSingletonObject nestedClassSingletonObject;
-		static {
-			nestedClassSingletonObject = new NestedClassSingletonObject();
-		}
-	}
-	
-	public NestedClassSingletonObject getInstance() {
+	public static NestedClassSingletonObject getInstance() {
 		return Nested.nestedClassSingletonObject;
 	}
+	
+	private static class Nested {
+		private static final NestedClassSingletonObject nestedClassSingletonObject = new NestedClassSingletonObject();
+	}
+	
 }

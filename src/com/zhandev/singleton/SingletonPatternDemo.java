@@ -22,5 +22,13 @@ public class SingletonPatternDemo {
 		LazySingleObject LazySingleObject1 = LazySingleObject.getInstance();
 		LazySingleObject LazySingleObject2 = LazySingleObject.getInstance();
 		System.out.println(LazySingleObject1 == LazySingleObject2);  // true
+		
+		
+		/*
+		 * nested/inner class
+		 */
+		NestedClassSingletonObject nestedClassSingletonObject1 = NestedClassSingletonObject.getInstance();
+		NestedClassSingletonObject nestedClassSingletonObject2 = NestedClassSingletonObject.getInstance();
+		System.out.println(nestedClassSingletonObject1 == nestedClassSingletonObject2);  // true
 	}
 }
