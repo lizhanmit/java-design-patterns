@@ -5,9 +5,15 @@
     - [Code Maintainability](#code-maintainability)
     - [Anti-Patterns](#anti-patterns)
     - [KISS Principle](#kiss-principle)
+    - [DRY Principle](#dry-principle)
+    - [Principle of Least Surprise](#principle-of-least-surprise)
+    - [Cohesion](#cohesion)
+      - [Class-Level Cohesion](#class-level-cohesion)
+      - [Method-Level Cohesion](#method-level-cohesion)
+    - [Coupling](#coupling)
   - [Design Principles](#design-principles)
   - [SOLID Principles of OOP](#solid-principles-of-oop)
-    - [Single Responsibility Principle](#single-responsibility-principle)
+    - [Single Responsibility Principle (SRP)](#single-responsibility-principle-srp)
     - [Open/Close Principle](#openclose-principle)
     - [Liskov Substitution Principle](#liskov-substitution-principle)
     - [Interface Segregation Principle](#interface-segregation-principle)
@@ -38,6 +44,8 @@
 
 [Java 设计模式](https://javadoop.com/post/design-pattern)
 
+---
+
 ## Code Maintainability and Anti-Patterns
 
 ### Code Maintainability
@@ -51,13 +59,76 @@
 
 - God Class
 - Code duplication
-  - "Don't Repeat Yourself" (DRY) principle
 
 ### KISS Principle
 
 KISS: Keep It Short and Simple. Have the application code in one single class. 
 
 It is good to keep things simple when possible, but do not abuse the principle. 
+
+### DRY Principle
+
+DRY: Don't Repeat Yourself. (code duplication)
+
+### Principle of Least Surprise
+
+It is a **good habit** to follow the *principle of least surprise* when you implement methods. 
+
+- Use self-documenting method names.
+- Do not change the state of parameters as other parts of code may depend on it.
+
+### Cohesion
+
+Cohesion is concerned with how related things are. It measures how strongly related responsibilities of a class or method are.
+
+**Aim**: High cohesion, which means the code is easier for others to locate, understand, and use.
+
+**Keep in mind** that if the methods you are grouping are weakly related, you have low cohesion.
+
+#### Class-Level Cohesion
+
+Six common ways to group methods:
+
+- Functional
+  - Downside: Have a lot of overly simplistic classes grouping only a single method.
+- Informational: Methods work on the same data or domain object, e,g, CRUD operations in a DAO class.
+  - Downside: Group multiple concerns together.
+- Utility: Contain different methods that are unrelated without a clear categorization.
+  - Downside: Low cohesion and poor discoverability. 
+  - **Generally avoid.**
+- Logical: Methods are different by nature and each of the methods would be unrelated.
+  - **Not recommended.**
+- Sequential: Grouping the methods so that they follow a sequence of input to output. For instance, you need to read a file, parse it, process it, and save the information. You may group all of the methods in one single class. 
+  - Downside: There may be many different ways of processing, summarizing, and saving, so this technique quickly leads to complex classes. 
+  - A **better approach** is to break down each responsibility inside individual, cohesive classes.
+- Temporal: Contains several operations that are only related in time. 
+
+Summary of pros and cons for different levels of cohesion:
+
+| Level of cohesion | Pro | Con |
+| ------ | ------ | ------ |
+| Functional (high cohesion) | Easy to understand | Can lead to overly simplistic classes |
+| Informational (medium cohesion) | Easy to maintain | Can lead to unnecessary dependencies | 
+| Sequential (medium cohesion) | Easy to locate related operations | Encourages violation of SRP |
+| Logical (medium cohesion) | Provides some form of high-level categorization | Encourages violation of SRP |
+| Utility (low cohesion) | Simple to put in place | Harder to reason about the responsibility of the class |
+| Temporal (low cohesion) | N/A | Harder to understand and use individual operations |
+
+#### Method-Level Cohesion
+
+The more different functionalities a method performs, the harder it becomes to understand what that method actually does. Your method has low cohesion if it is handling multiple unrelated concerns
+
+If you find yourself with a method that contains a series of if/else blocks that make modifications to many different fields of a class or parameters to the method, then it is a sign you should break down the method in more cohesive parts.
+
+### Coupling
+
+The more classes you rely on, the less flexible you become when introducing changes. The class affected by a change may affect all the classes depending on it.
+
+You can decouple different components by using an interface, which is the tool of choice for providing flexibility for changing requirements.
+
+**Aim**: Low coupling.
+
+![decoupling-two-classes.png](img/decoupling-two-classes.png)
 
 ---
 
@@ -70,13 +141,14 @@ It is good to keep things simple when possible, but do not abuse the principle.
 	- When two classes are combined to use, that is composition, e.g. animal and its behavior.
 	- Using composition makes system more flexible, which make it possible to change behaviors dynamically in runtime.
 - Using interfaces makes code non reusable as there is no real code in interfaces and every implemented class needs to implement its methods.
-
+  
 ---
 
 ## SOLID Principles of OOP
 
-### Single Responsibility Principle
+### Single Responsibility Principle (SRP)
 
+- SRP is usually applied to classes and methods.
 - Every class should have a single responsibility.
 - Your classes should be small.
 - Avoid "God" classes.
