@@ -11,10 +11,13 @@
       - [Class-Level Cohesion](#class-level-cohesion)
       - [Method-Level Cohesion](#method-level-cohesion)
     - [Coupling](#coupling)
+  - [Tips](#tips)
+    - [Domain Class or Primitive Value](#domain-class-or-primitive-value)
   - [Design Principles](#design-principles)
   - [SOLID Principles of OOP](#solid-principles-of-oop)
     - [Single Responsibility Principle (SRP)](#single-responsibility-principle-srp)
     - [Open/Close Principle](#openclose-principle)
+      - [Interfaces Gotchas](#interfaces-gotchas)
     - [Liskov Substitution Principle](#liskov-substitution-principle)
     - [Interface Segregation Principle](#interface-segregation-principle)
     - [Dependency Inversion Principle](#dependency-inversion-principle)
@@ -54,6 +57,8 @@
 - It should be simple to understand what the code does.
 - It should be simple to add or remove a new feature.
 - It should provide good encapsulation. In other words, implementation details should be hidden from a user of your code so it is easier to understand and make changes.
+
+High cohesion and low coupling are characteristics of maintainable code.
 
 ### Anti-Patterns
 
@@ -130,6 +135,18 @@ You can decouple different components by using an interface, which is the tool o
 
 ![decoupling-two-classes.png](img/decoupling-two-classes.png)
 
+--- 
+
+## Tips 
+
+### Domain Class or Primitive Value
+
+It is often **preferable** to not return a primitive value like a `double` if you are looking at returning a result from an aggregation. This is because it doesn’t give you the flexibility to later return multiple results.
+
+A solution to this problem is to introduce a new domain class that wraps the `double` value. In the future you can add other fields and results to this class.
+
+**NOTE**: A primitive `double` value has a limited number of bits, and as a result it has limited precision when storing decimal numbers. An alternative to consider is `java.math.BigDecimal`, which has arbitrary precision. However, this precision comes at the cost of increased CPU and memory overhead.
+
 ---
 
 ## Design Principles
@@ -156,9 +173,9 @@ You can decouple different components by using an interface, which is the tool o
 
 ### Open/Close Principle
 
-- Avoid change in the existing code when requirements change. Instead extend the existing functionality by adding new code to meet the new requirements.
-- Your classes should be open for extension but closed for modification.
-- You should be able to extend a class's behavior, without modifying it.
+- Avoid change in the existing code when requirements change. Instead, extend the existing functionality by adding new code to meet the new requirements.
+- Your classes or methods should be open for extension but closed for modification.
+- You should be able to extend a class's or method's behavior, without modifying it.
 - How to? Create interfaces and abstract classes for base classes.
 
 Example scenario: Insurance company. Claim business.
@@ -275,6 +292,14 @@ public class ClaimApprovalManagerTest {
     }
 }
 ```
+
+#### Interfaces Gotchas
+
+- God Interface
+    - It is generally **recommended** to define smaller interfaces, which  minimizes dependency to multiple operations or internals of a domain object.
+- Too Granular
+    - It introduces "anti-cohesion".
+    - Part of promoting good maintenance is to help discoverability of common operations.
 
 ### Liskov Substitution Principle
 
