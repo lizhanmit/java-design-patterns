@@ -141,7 +141,7 @@ You can decouple different components by using an interface, which is the tool o
 
 ### Domain Class or Primitive Value
 
-It is often **preferable** to not return a primitive value like a `double` if you are looking at returning a result from an aggregation. This is because it doesn’t give you the flexibility to later return multiple results.
+It is often **preferable** to not return a primitive value like a `double` if you are looking at returning a result from an aggregation. This is because it does not give you the flexibility to later return multiple results.
 
 A solution to this problem is to introduce a new domain class that wraps the `double` value. In the future you can add other fields and results to this class.
 
@@ -153,7 +153,7 @@ A solution to this problem is to introduce a new domain class that wraps the `do
 
 - Encapsulate the part in the application that may need changes. **DO NOT** mix them with those code that does not need change.
 	- If the new requirement comes and some part of code needs to change accordingly, then this part of code needs to be extracted distinguishing with other stable code.
-- Code against interface rather than implementation.
+- Code against interface rather than implementation, which lets you decouple from multiple implementations.
 - Use composition more. Use inheritance less. (HAS-A is better than IS-A.)
 	- When two classes are combined to use, that is composition, e.g. animal and its behavior.
 	- Using composition makes system more flexible, which make it possible to change behaviors dynamically in runtime.
@@ -173,6 +173,7 @@ A solution to this problem is to introduce a new domain class that wraps the `do
 
 ### Open/Close Principle
 
+- This principle is essential for adding flexibility to your codebase and improving code maintenance.
 - Avoid change in the existing code when requirements change. Instead, extend the existing functionality by adding new code to meet the new requirements.
 - Your classes or methods should be open for extension but closed for modification.
 - You should be able to extend a class's or method's behavior, without modifying it.
@@ -364,7 +365,7 @@ public class ElectricPowerSwitch {
 }
 ```
 
-It is bad that the LightBulb class is hardcoded in ElectricPowerSwitch. A switch should not be tied to a bulb. It should be able to turn on and off other appliances and devices too.
+It is bad that the `LightBulb` class is hardcoded in `ElectricPowerSwitch`. A switch should not be tied to a bulb. It should be able to turn on and off other appliances and devices too.
 
 **Good Approach**
 
@@ -472,7 +473,7 @@ public class ElectricPowerSwitchTest {
 }
 ```
 
-**NOTE** how class files are organized in different packages. We kept the Switchable interface in a different package from the low-level electric device classes. This will also help us if we later decide to release the high-level package as a public API that other applications can use for their devices.
+**NOTE** how class files are organized in different packages. We kept the `Switchable` interface in a different package from the low-level electric device classes. This will also help us if we later decide to release the high-level package as a public API that other applications can use for their devices.
 
 ---
 
@@ -566,7 +567,7 @@ When to use:
 
 ### Adapter Pattern
 
-Use a sinlge class to combine the capabilities or functionalities of two independent or incompatible interfaces.
+Use a single class to combine the capabilities or functionalities of two independent or incompatible interfaces.
 
 A real life example could be a case of card reader which acts as an adapter between a memory card and a laptop. You plugin the memory card into card reader and card reader into the laptop so that memory card can be read via laptop.
 
