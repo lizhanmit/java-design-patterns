@@ -11,6 +11,10 @@
       - [Class-Level Cohesion](#class-level-cohesion)
       - [Method-Level Cohesion](#method-level-cohesion)
     - [Coupling](#coupling)
+  - [Exception Handling](#exception-handling)
+    - [Anti-Patterns with Exceptions](#anti-patterns-with-exceptions)
+    - [Notification Pattern](#notification-pattern)
+    - [Guidelines for Using Exceptions](#guidelines-for-using-exceptions)
   - [Tips](#tips)
     - [Domain Class or Primitive Value](#domain-class-or-primitive-value)
   - [Design Principles](#design-principles)
@@ -134,6 +138,94 @@ You can decouple different components by using an interface, which is the tool o
 **Aim**: Low coupling.
 
 ![decoupling-two-classes.png](img/decoupling-two-classes.png)
+
+---
+
+## Exception Handling
+
+### Anti-Patterns with Exceptions
+
+Overly specific: You think of every single edge case to validate the input and converted each edge case into a checked exception. For instance, you define `DescriptionTooLongException`, `InvalidDateFormat`, `DateInTheFutureException`, and `InvalidAmountException` yourself by extending the class `Exception`. 
+
+Downsides: 
+  - Unproductive.
+  - You cannot collect all the errors as a whole.
+
+Overly apathetic: Make everything an unchecked exception, e.g. by using `IllegalArgumentException`.
+
+Downsides: 
+  - You cannot have specific recovery logic because all the exceptions are the same. 
+  - You cannot collect all the errors as a whole.
+
+### Notification Pattern
+
+This aims to provide a solution for the situation in which you are using too many unchecked exceptions. It introduce a domain class to collect errors.
+
+```java
+public class Notification {
+    private final List<String> errors = new ArrayList<>();
+
+    public void addError(final String message) {
+        errors.add(message);
+    }
+
+    public boolean hasErrors() {
+        return !errors.isEmpty();
+    }
+
+    public String errorMessage() {
+        return errors.toString();
+    }
+
+    public List<String> getErrors() {
+        return this.errors;
+    }
+
+}
+```
+
+Instead of throwing exceptions, you can now simply add messages into the `Notification` object. 
+
+```java
+/*
+ * How to use Notification
+ */
+public Notification validate() {
+
+    final Notification notification = new Notification();
+    if(this.description.length() > 100) {
+        notification.addError("The description is too long");
+    }
+
+    final LocalDate parsedDate;
+    try {
+        parsedDate = LocalDate.parse(this.date);
+        if (parsedDate.isAfter(LocalDate.now())) {
+            notification.addError("date cannot be in the future");
+        }
+    }
+    catch (DateTimeParseException e) {
+        notification.addError("Invalid format for date");
+    }
+
+    final double amount;
+    try {
+        amount = Double.parseDouble(this.amount);
+    }
+    catch (NumberFormatException e) {
+        notification.addError("Invalid format for amount");
+    }
+    return notification;
+}
+```
+
+### Guidelines for Using Exceptions
+
+- **DO NOT** ignore an exception. If there is not an obvious handling mechanism, then throw an unchecked exception instead.
+- **DO NOT** catch the generic exception. Catch a specific exception as much as you can to improve readability and support more specific exception handling. 
+- Document exceptions at your API-level including unchecked exceptions to facilitate troubleshooting by using the `@throws` Javadoc syntax.
+- **DO NOT** throw implementation-specific exceptions as it breaks encapsulation of your API. 
+- **DO NOT** use exceptions for control flow. For example, the code relies on an exception to exit the loop. It is good **NOT** to create an exception until you are sure that you need to throw it.
 
 --- 
 
