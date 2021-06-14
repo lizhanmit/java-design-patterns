@@ -13,8 +13,13 @@
     - [Coupling](#coupling)
   - [Exception Handling](#exception-handling)
     - [Anti-Patterns with Exceptions](#anti-patterns-with-exceptions)
+      - [Overly Specific](#overly-specific)
+      - [Overly Apathetic](#overly-apathetic)
     - [Notification Pattern](#notification-pattern)
     - [Guidelines for Using Exceptions](#guidelines-for-using-exceptions)
+    - [Alternatives to Exceptions](#alternatives-to-exceptions)
+      - [Null Object Pattern](#null-object-pattern)
+      - [`Optional<T>`](#optionalt)
   - [Tips](#tips)
     - [Domain Class or Primitive Value](#domain-class-or-primitive-value)
   - [Design Principles](#design-principles)
@@ -145,13 +150,17 @@ You can decouple different components by using an interface, which is the tool o
 
 ### Anti-Patterns with Exceptions
 
-Overly specific: You think of every single edge case to validate the input and converted each edge case into a checked exception. For instance, you define `DescriptionTooLongException`, `InvalidDateFormat`, `DateInTheFutureException`, and `InvalidAmountException` yourself by extending the class `Exception`. 
+#### Overly Specific
+
+You think of every single edge case to validate the input and converted each edge case into a checked exception. For instance, you define `DescriptionTooLongException`, `InvalidDateFormat`, `DateInTheFutureException`, and `InvalidAmountException` yourself by extending the class `Exception`. 
 
 Downsides: 
   - Unproductive.
   - You cannot collect all the errors as a whole.
 
-Overly apathetic: Make everything an unchecked exception, e.g. by using `IllegalArgumentException`.
+#### Overly Apathetic
+
+Make everything an unchecked exception, e.g. by using `IllegalArgumentException`.
 
 Downsides: 
   - You cannot have specific recovery logic because all the exceptions are the same. 
@@ -226,6 +235,23 @@ public Notification validate() {
 - Document exceptions at your API-level including unchecked exceptions to facilitate troubleshooting by using the `@throws` Javadoc syntax.
 - **DO NOT** throw implementation-specific exceptions as it breaks encapsulation of your API. 
 - **DO NOT** use exceptions for control flow. For example, the code relies on an exception to exit the loop. It is good **NOT** to create an exception until you are sure that you need to throw it.
+
+### Alternatives to Exceptions
+
+**Absolutely avoid using returning null.**
+
+#### Null Object Pattern
+
+Return an object that implements the expected interface but whose method bodies are empty.
+
+
+Pros: You do not need to deal with unexpected `NullPointer` exceptions and a long list of null checks.
+
+Cons: You may hide potential issues in the data with an object that simply ignores the real problem, which makes troubleshooting more difficult.
+
+#### `Optional<T>`
+
+Java 8 introduced a built-in data type `java.util.Optional<T>`, which comes with a set of methods to explicitly deal with the absence of a value.
 
 --- 
 
