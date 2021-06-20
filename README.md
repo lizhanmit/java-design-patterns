@@ -22,6 +22,8 @@
       - [`Optional<T>`](#optionalt)
   - [Tips](#tips)
     - [Domain Class or Primitive Value](#domain-class-or-primitive-value)
+    - [Principle of Strong Type](#principle-of-strong-type)
+    - [Discoverability](#discoverability)
   - [Design Principles](#design-principles)
   - [SOLID Principles of OOP](#solid-principles-of-oop)
     - [Single Responsibility Principle (SRP)](#single-responsibility-principle-srp)
@@ -264,6 +266,18 @@ It is often **preferable** to not return a primitive value like a `double` if yo
 A solution to this problem is to introduce a new domain class that wraps the `double` value. In the future you can add other fields and results to this class.
 
 **NOTE**: A primitive `double` value has a limited number of bits, and as a result it has limited precision when storing decimal numbers. An alternative to consider is `java.math.BigDecimal`, which has arbitrary precision. However, this precision comes at the cost of increased CPU and memory overhead.
+
+### Principle of Strong Type
+
+For instance, when creating an interface to import the files, take a type that represents the file (e.g. `java.io.File`) and reduce the scope for errors versus using a `String`. 
+
+However, for public API, take the path as a `String` rather than relying on a more type-safe class like `java.nio.Path` or `java.io.File`.
+
+### Discoverability
+
+Communication is King! Good teams of software developers use a Ubiquitous Language to describe their software.
+
+Matching the vocabulary that you use within the code of your application to the vocabulary that you use to talk to clients or colleagues makes things a lot easier to maintain, and makes it really easy to know what part of the code to change.
 
 ---
 
