@@ -22,14 +22,15 @@
       - [`Optional<T>`](#optionalt)
   - [Tips](#tips)
     - [Domain Class or Primitive Value](#domain-class-or-primitive-value)
-    - [Principle of Strong Type](#principle-of-strong-type)
+    - [Principle of Strong Typing](#principle-of-strong-typing)
     - [Discoverability](#discoverability)
+    - [Scoping and Encapsulation Choices](#scoping-and-encapsulation-choices)
   - [Design Principles](#design-principles)
   - [SOLID Principles of OOP](#solid-principles-of-oop)
     - [Single Responsibility Principle (SRP)](#single-responsibility-principle-srp)
     - [Open/Close Principle](#openclose-principle)
       - [Interfaces Gotchas](#interfaces-gotchas)
-    - [Liskov Substitution Principle](#liskov-substitution-principle)
+    - [Liskov Substitution Principle (LSP)](#liskov-substitution-principle-lsp)
     - [Interface Segregation Principle](#interface-segregation-principle)
     - [Dependency Inversion Principle](#dependency-inversion-principle)
   - [Creational Patterns](#creational-patterns)
@@ -267,7 +268,9 @@ A solution to this problem is to introduce a new domain class that wraps the `do
 
 **NOTE**: A primitive `double` value has a limited number of bits, and as a result it has limited precision when storing decimal numbers. An alternative to consider is `java.math.BigDecimal`, which has arbitrary precision. However, this precision comes at the cost of increased CPU and memory overhead.
 
-### Principle of Strong Type
+### Principle of Strong Typing
+
+Types allow us to restrict the way in which data is used.
 
 For instance, when creating an interface to import the files, take a type that represents the file (e.g. `java.io.File`) and reduce the scope for errors versus using a `String`. 
 
@@ -275,9 +278,13 @@ However, for public API, take the path as a `String` rather than relying on a mo
 
 ### Discoverability
 
-Communication is King! Good teams of software developers use a Ubiquitous Language to describe their software.
+**Communication is King!** Good teams of software developers use a Ubiquitous Language to describe their software.
 
 Matching the vocabulary that you use within the code of your application to the vocabulary that you use to talk to clients or colleagues makes things a lot easier to maintain, and makes it really easy to know what part of the code to change.
+
+### Scoping and Encapsulation Choices
+
+Often Java classes make their constructor public, but this can be a bad choice as it allows code anywhere in your project to create objects of that type. **Recommend**: keep the constructor package scoped and restrict access to only the package which should be able to create that class.
 
 ---
 
@@ -434,9 +441,12 @@ public class ClaimApprovalManagerTest {
     - It introduces "anti-cohesion".
     - Part of promoting good maintenance is to help discoverability of common operations.
 
-### Liskov Substitution Principle
+### Liskov Substitution Principle (LSP)
 
 - Any object in a program can be replaced by an object of a child class (instance of a subtype) without altering the correctness of the program.
+- You cannot require any more restrictive preconditions than your parent required. For example, you cannot require your document to be smaller than 100KB in size if your parent should be able to import any size of document.
+- Invariants of the supertype must be preserved in a subtype.
+- The child class should not allow state changes that your parent disallowed.
 
 ### Interface Segregation Principle
 
