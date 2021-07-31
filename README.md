@@ -20,11 +20,17 @@
     - [Alternatives to Exceptions](#alternatives-to-exceptions)
       - [Null Object Pattern](#null-object-pattern)
       - [`Optional<T>`](#optionalt)
+  - [Test Hygiene](#test-hygiene)
+    - [Test Naming](#test-naming)
+    - [Behavior Not Implementation](#behavior-not-implementation)
   - [Tips](#tips)
     - [Domain Class or Primitive Value](#domain-class-or-primitive-value)
     - [Principle of Strong Typing](#principle-of-strong-typing)
     - [Discoverability](#discoverability)
     - [Scoping and Encapsulation Choices](#scoping-and-encapsulation-choices)
+    - [Interfaces VS Classes](#interfaces-vs-classes)
+    - [Inheritance](#inheritance)
+    - [Reusing Code](#reusing-code)
   - [Design Principles](#design-principles)
   - [SOLID Principles of OOP](#solid-principles-of-oop)
     - [Single Responsibility Principle (SRP)](#single-responsibility-principle-srp)
@@ -258,6 +264,28 @@ Java 8 introduced a built-in data type `java.util.Optional<T>`, which comes with
 
 --- 
 
+## Test Hygiene
+
+### Test Naming
+
+Name the test after the behavior.
+
+Rules of thumb: 
+
+- Use domain terminology: Align the vocabulary used in your test names with that used when describing the problem domain or referred by the application itself.
+- Use natural language: Every test name should be something that you can easily read as a sentence. It should always describe some behavior in a readable way.
+- Be descriptive: Shortest name is not necessarily best.
+
+### Behavior Not Implementation
+
+You should only be testing the public behavior of whatever is being tested.
+
+The tests should only invoke the public API methods of the system and not try to inspect the internal state of the objects or the design. This is one of the key mistakes made by developers that leads to hard-to-maintain tests. 
+
+Relying on specific implementation details results in brittle tests.
+
+---
+
 ## Tips 
 
 ### Domain Class or Primitive Value
@@ -285,6 +313,30 @@ Matching the vocabulary that you use within the code of your application to the 
 ### Scoping and Encapsulation Choices
 
 Often Java classes make their constructor public, but this can be a bad choice as it allows code anywhere in your project to create objects of that type. **Recommend**: keep the constructor package scoped and restrict access to only the package which should be able to create that class.
+
+
+### Interfaces VS Classes
+
+Interfaces and classes provide a different set of capabilities.
+
+You can implement multiple interfaces, while classes can contain instance fields and it is more usual to have method bodies in classes.
+
+If you want to model a strong "is-a" relationship in your problem domain that involves state or a lot of behavior, then class-based inheritance is more appropriate.
+
+- interfaces: "has-a"
+- classes: "is-a"
+
+### Inheritance 
+
+Inheritance is a perfectly solid choice of design in many circumstances. In practice, inheritance is often a poor choice when the inheritance fails to model some real-world relationship. 
+
+The issue with inheritance relationships that do not correspond to real-world relationships is that they tend to be brittle.
+
+As a rule of thumb, **it is a bad idea to introduce an inheritance relationship purely to enable code reuse**.
+
+### Reusing Code
+
+It is often better to duplicate a little bit of code when you start writing some classes. Once you have implemented more of the application, the right abstraction will become apparent. Only when you know a little bit more about the right way to remove duplication should you go down the route of removing the duplication.
 
 ---
 
