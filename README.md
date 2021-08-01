@@ -20,9 +20,6 @@
     - [Alternatives to Exceptions](#alternatives-to-exceptions)
       - [Null Object Pattern](#null-object-pattern)
       - [`Optional<T>`](#optionalt)
-  - [Test Hygiene](#test-hygiene)
-    - [Test Naming](#test-naming)
-    - [Behavior Not Implementation](#behavior-not-implementation)
   - [Tips](#tips)
     - [Domain Class or Primitive Value](#domain-class-or-primitive-value)
     - [Principle of Strong Typing](#principle-of-strong-typing)
@@ -261,28 +258,6 @@ Cons: You may hide potential issues in the data with an object that simply ignor
 #### `Optional<T>`
 
 Java 8 introduced a built-in data type `java.util.Optional<T>`, which comes with a set of methods to explicitly deal with the absence of a value.
-
---- 
-
-## Test Hygiene
-
-### Test Naming
-
-Name the test after the behavior.
-
-Rules of thumb: 
-
-- Use domain terminology: Align the vocabulary used in your test names with that used when describing the problem domain or referred by the application itself.
-- Use natural language: Every test name should be something that you can easily read as a sentence. It should always describe some behavior in a readable way.
-- Be descriptive: Shortest name is not necessarily best.
-
-### Behavior Not Implementation
-
-You should only be testing the public behavior of whatever is being tested.
-
-The tests should only invoke the public API methods of the system and not try to inspect the internal state of the objects or the design. This is one of the key mistakes made by developers that leads to hard-to-maintain tests. 
-
-Relying on specific implementation details results in brittle tests.
 
 ---
 
