@@ -60,6 +60,8 @@
 
 ---
 
+[https://refactoring.guru/design-patterns](https://refactoring.guru/design-patterns)
+
 [Java 设计模式](https://javadoop.com/post/design-pattern)
 
 ---
