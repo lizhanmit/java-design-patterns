@@ -652,13 +652,13 @@ public class ElectricPowerSwitchTest {
 
 ### Factory Pattern
 
-Use a factory class to create normal classes through specifying class type as input parameter rather than use new operator.
+Use a factory class to create normal classes through specifying class type as input parameter rather than using `new` operator.
 
 ![factory-pattern.jpg](img/factory-pattern.jpg)
 
 ### Abstract Factory Pattern
 
-Use a super-factory (factory producer) to create other factories through specifying factory type as input parameter rather than use new operator.
+Use a super-factory (factory producer) to create other factories through specifying factory type as input parameter rather than using `new` operator.
 
 相当于再提一层。
 
