@@ -20,6 +20,7 @@
     - [Alternatives to Exceptions](#alternatives-to-exceptions)
       - [Null Object Pattern](#null-object-pattern)
       - [`Optional<T>`](#optionalt)
+  - [Fluent API](#fluent-api)
   - [Tips](#tips)
     - [Domain Class or Primitive Value](#domain-class-or-primitive-value)
     - [Principle of Strong Typing](#principle-of-strong-typing)
@@ -34,7 +35,7 @@
     - [Open/Close Principle](#openclose-principle)
       - [Interfaces Gotchas](#interfaces-gotchas)
     - [Liskov Substitution Principle (LSP)](#liskov-substitution-principle-lsp)
-    - [Interface Segregation Principle](#interface-segregation-principle)
+    - [Interface Segregation Principle (ISP)](#interface-segregation-principle-isp)
     - [Dependency Inversion Principle](#dependency-inversion-principle)
   - [Creational Patterns](#creational-patterns)
     - [Factory Pattern](#factory-pattern)
@@ -263,6 +264,17 @@ Java 8 introduced a built-in data type `java.util.Optional<T>`, which comes with
 
 ---
 
+## Fluent API
+
+A Fluent API is an API that is explicitly tailored for a specific domain so that you can solve a specific problem more intuitively.
+
+It also embraces the idea of chaining
+method calls to specify a more complex operation.
+
+Fluent API can be implemented by using Builder pattern.
+
+---
+
 ## Tips 
 
 ### Domain Class or Primitive Value
@@ -334,7 +346,7 @@ It is often better to duplicate a little bit of code when you start writing some
 ### Single Responsibility Principle (SRP)
 
 - SRP is usually applied to classes and methods.
-- Every class should have a single responsibility.
+- Every class should have a single responsibility, and there should be only one reason for it to change.
 - Your classes should be small.
 - Avoid "God" classes.
 - Split big classes into small classes.
@@ -477,9 +489,9 @@ public class ClaimApprovalManagerTest {
 - Invariants of the supertype must be preserved in a subtype.
 - The child class should not allow state changes that your parent disallowed.
 
-### Interface Segregation Principle
+### Interface Segregation Principle (ISP)
 
-- Clients (implementing classes) should not be forced to depend on (implement) methods that they do not use.
+- Clients (implementing classes) should not be forced to depend on (implement) methods that they do not use because this introduces unnecessary coupling.
 - Many fine-grained client specific interfaces (role interfaces) are better than one "general purpose" (fat) interface.
 - Each "role interface" declares one or more methods for a specific behavior.
 - Keep your components focused and minimize dependencies between them.
@@ -718,7 +730,14 @@ Five kinds of implementations:
 
 ### Builder Pattern
 
-Create a complex object (it is Meal here) which contains simple objects (it is Item here), e.g. a field of the complex object is a collection of other simple objects.
+The purpose of this pattern is to allow the creation of an object in a simpler
+manner. It essentially deconstructs the parameters of a constructor and instead provides methods to supply each of the parameters.
+
+The benefit of this approach is that it allows you to declare methods with names that are suitable to the domain at hand.
+
+Create a **complex object** (it is Meal here) which contains simple objects (it is Item here), e.g. a field of the complex object is a collection of other simple objects.
+
+It is not applicable to simple objects.
 
 ![builder-pattern.jpg](img/builder-pattern.jpg)
 
